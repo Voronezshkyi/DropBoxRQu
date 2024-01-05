@@ -1,7 +1,7 @@
-import { SignInButton, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Toggler } from "./ui/Toggler";
+import { SignInButton, SignedOut, UserButton } from "@clerk/nextjs";
 
 function Header() {
   return (

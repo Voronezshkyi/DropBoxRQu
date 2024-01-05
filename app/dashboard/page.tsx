@@ -1,5 +1,6 @@
 import DropzoneArea from "@/components/DropzoneArea";
 import { auth } from "@clerk/nextjs";
+
 const page = () => {
   const { userId } = auth();
   return (
