@@ -19,7 +19,7 @@ async function Dashboard() {
   }));
 
   return (
-    <div className="border-t">
+    <div className="container">
       <DropzoneArea />
       <section className="container space-y-5">
         <h2 className="font-bold">All Files</h2>

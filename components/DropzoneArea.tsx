@@ -55,7 +55,7 @@ const DropzoneArea = () => {
   };
   const maxSize = 20971520;
   return (
-    <div>
+    <>
       <Dropzone minSize={0} maxSize={maxSize} onDrop={onDrop}>
         {({
           getRootProps,
@@ -86,7 +86,7 @@ const DropzoneArea = () => {
           </section>
         )}
       </Dropzone>
-    </div>
+    </>
   );
 };
 

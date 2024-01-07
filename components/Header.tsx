@@ -5,7 +5,7 @@ import { SignInButton, SignedOut, UserButton } from "@clerk/nextjs";
 
 function Header() {
   return (
-    <header className="flex items-center justify-between">
+    <header className="border-b flex items-center justify-between">
       <Link href="/" className="flex items-center">
         <div className="flex items-center bg-[#0160FE] w-fit">
           <Image
