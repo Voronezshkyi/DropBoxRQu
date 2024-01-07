@@ -67,14 +67,6 @@ export function DataTable<TData, TValue>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
-                <TableCell key={(row.original as FileType).id}>
-                  <Button
-                    variant={"outline"}
-                    onClick={() => console.log("hello")}
-                  >
-                    <TrashIcon />
-                  </Button>
-                </TableCell>
               </TableRow>
             ))
           ) : (

@@ -1,10 +1,11 @@
 "use client";
 import { COLOR_MAP } from "@/constant";
 import { FileType } from "@/typings";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import prettyBytes from "pretty-bytes";
 import { FileIcon, defaultStyles } from "react-file-icon";
+import { Button } from "../ui/button";
 
 export const columns: ColumnDef<FileType>[] = [
   {
@@ -31,7 +32,12 @@ export const columns: ColumnDef<FileType>[] = [
     header: "Filename",
     cell: ({ renderValue, ...props }) => {
       return (
-        <div className="flex space-x-10 items-center underline text-blue-500 hover:cursor-pointer">
+        <div
+          onClick={() => {
+            console.log(props.row.original);
+          }}
+          className="flex space-x-10 items-center underline text-blue-500 hover:cursor-pointer"
+        >
           {renderValue() as string} <Pencil1Icon />
         </div>
       );
@@ -72,6 +78,17 @@ export const columns: ColumnDef<FileType>[] = [
       >
         Download
       </a>
+    ),
+  },
+  {
+    header: "Delete File",
+    cell: ({ renderValue, ...props }) => (
+      <Button
+        variant={"outline"}
+        onClick={() => console.log(props.row.original.id)}
+      >
+        <TrashIcon />
+      </Button>
     ),
   },
 ];
