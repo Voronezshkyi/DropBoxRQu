@@ -80,15 +80,4 @@ export const columns: ColumnDef<FileType>[] = [
       </a>
     ),
   },
-  {
-    header: "Delete File",
-    cell: ({ renderValue, ...props }) => (
-      <Button
-        variant={"outline"}
-        onClick={() => console.log(props.row.original.id)}
-      >
-        <TrashIcon />
-      </Button>
-    ),
-  },
 ];

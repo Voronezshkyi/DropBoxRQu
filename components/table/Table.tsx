@@ -1,12 +1,10 @@
 "use client";
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -15,9 +13,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FileType } from "@/typings";
+import { DeleteModal } from "../DeleteModal";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/redux/store";
 import { Button } from "../ui/button";
 import { TrashIcon } from "@radix-ui/react-icons";
+import { deleteModalChangeVisibility } from "@/lib/redux/features/modal/deleteModalVisibility";
+import { updateModalChangeVisibility } from "@/lib/redux/features/modal/updateModalVisibility";
+import { FileType } from "@/typings";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,7 +36,13 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
+  const deleteModalVisibility = useSelector(
+    (state: RootState) => state.deleteModal.show
+  );
+  const updateModalVisibility = useSelector(
+    (state: RootState) => state.updateModal.show
+  );
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <div className="rounded-md border">
       <Table>
@@ -62,11 +71,22 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
+                <DeleteModal />
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
+                <TableCell>
+                  <Button
+                    variant={"outline"}
+                    onClick={() => {
+                      dispatch(deleteModalChangeVisibility());
+                    }}
+                  >
+                    <TrashIcon />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (

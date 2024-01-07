@@ -1,7 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import deleteModalVisibility from "./features/modal/deleteModalVisibility";
+import updateModalVisibility from "./features/modal/updateModalVisibility";
+
 
 export const store = configureStore({
-    reducer: {}
+    reducer: {
+        deleteModal: deleteModalVisibility,
+        updateModal: updateModalVisibility,
+    }
     
 })
 
