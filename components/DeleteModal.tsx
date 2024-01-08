@@ -2,23 +2,45 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deleteModalChangeVisibility } from "@/lib/redux/features/modal/deleteModalVisibility";
-
-import { AppDispatch, RootState } from "@/lib/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { db, storage } from "@/firebase";
+import { useAppStore } from "@/store/store";
+import { useUser } from "@clerk/nextjs";
+import { deleteDoc, doc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 
 export function DeleteModal() {
-  const modalShow = useSelector((state: RootState) => state.deleteModal);
-  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useUser();
+  const [isDeleteModalOpen, setIsDeleteModalOpen, fileId, setFileId] =
+    useAppStore((state) => [
+      state.isDeleteModalOpen,
+      state.setIsDeleteModalOpen,
+      state.fileId,
+      state.setFileId,
+    ]);
+
+  async function deleteFile() {
+    if (!user || !fileId) return;
+    try {
+      const fileRef = ref(storage, `users/${user.id}/files/${fileId}`);
+      await deleteObject(fileRef);
+      await deleteDoc(doc(db, "users", user.id, "files", fileId));
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error("File was not deleted, an error has been occured");
+    }
+  }
   return (
-    <Dialog open={modalShow.show}>
+    <Dialog
+      open={isDeleteModalOpen}
+      onOpenChange={(isOpen) => {
+        setIsDeleteModalOpen(isOpen);
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Are you sure want to delete?</DialogTitle>
@@ -31,9 +53,7 @@ export function DeleteModal() {
             size="sm"
             className="px-3 flex-1"
             variant="ghost"
-            onClick={() => {
-              dispatch(deleteModalChangeVisibility());
-            }}
+            onClick={() => setIsDeleteModalOpen(false)}
           >
             <span className="sr-only">Cancel</span>
             <span>Cancel</span>
@@ -43,7 +63,7 @@ export function DeleteModal() {
             className="px-3 flex-1"
             variant="destructive"
             onClick={() => {
-              dispatch(deleteModalChangeVisibility());
+              deleteFile();
             }}
           >
             <span className="sr-only">Delete</span>

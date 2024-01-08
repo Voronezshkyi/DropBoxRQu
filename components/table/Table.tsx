@@ -14,12 +14,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DeleteModal } from "../DeleteModal";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/lib/redux/store";
 import { Button } from "../ui/button";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { deleteModalChangeVisibility } from "@/lib/redux/features/modal/deleteModalVisibility";
-import { updateModalChangeVisibility } from "@/lib/redux/features/modal/updateModalVisibility";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import { RenameModal } from "../RenameModal";
+import { useAppStore } from "@/store/store";
 import { FileType } from "@/typings";
 
 interface DataTableProps<TData, TValue> {
@@ -36,13 +34,22 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  const deleteModalVisibility = useSelector(
-    (state: RootState) => state.deleteModal.show
-  );
-  const updateModalVisibility = useSelector(
-    (state: RootState) => state.updateModal.show
-  );
-  const dispatch = useDispatch<AppDispatch>();
+  const [setIsDeleteModalOpen, setFileId, setFileName, setIsRenameModalOpen] =
+    useAppStore((state) => [
+      state.setIsDeleteModalOpen,
+      state.setFileId,
+      state.setFileName,
+      state.setIsRenameModalOpen,
+    ]);
+  const openDeleteModal = (fileId: string) => {
+    setFileId(fileId);
+    setIsDeleteModalOpen(true);
+  };
+  const openRenameModal = (fileId: string, filename: string) => {
+    setFileId(fileId);
+    setFileName(filename);
+    setIsRenameModalOpen(true);
+  };
   return (
     <div className="rounded-md border">
       <Table>
@@ -71,17 +78,32 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
+                <RenameModal />
                 <DeleteModal />
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {cell.column.id === "filename" ? (
+                      <div
+                        onClick={() => {
+                          openRenameModal(
+                            (row.original as FileType).id,
+                            (row.original as FileType).filename
+                          );
+                        }}
+                        className="flex space-x-10 items-center underline text-blue-500 hover:cursor-pointer"
+                      >
+                        {cell.getValue() as string} <Pencil1Icon />
+                      </div>
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </TableCell>
                 ))}
                 <TableCell>
                   <Button
                     variant={"outline"}
                     onClick={() => {
-                      dispatch(deleteModalChangeVisibility());
+                      openDeleteModal((row.original as FileType).id);
                     }}
                   >
                     <TrashIcon />
