@@ -5,16 +5,10 @@ import { SignInButton, SignedOut, UserButton } from "@clerk/nextjs";
 
 function Header() {
   return (
-    <header className="border-b flex items-center justify-between">
-      <Link href="/" className="flex items-center">
-        <div className="flex items-center bg-[#0160FE] w-fit">
-          <Image
-            src="/dropbox.svg"
-            alt="logo"
-            className="invert"
-            height={50}
-            width={50}
-          />
+    <header className="border-b flex items-center justify-between p-1">
+      <Link href="/" className="flex items-center space-x-4">
+        <div className="flex items-center w-fit">
+          <Image src="/dropbox.png" alt="logo" height={50} width={50} />
         </div>
         <p className="font-bold text-xl">Dropbox</p>
       </Link>

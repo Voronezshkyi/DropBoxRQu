@@ -101,6 +101,7 @@ export function DataTable<TData, TValue>({
                 ))}
                 <TableCell>
                   <Button
+                    name="Delete Button"
                     variant={"outline"}
                     onClick={() => {
                       openDeleteModal((row.original as FileType).id);

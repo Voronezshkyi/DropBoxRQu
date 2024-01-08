@@ -50,6 +50,26 @@ const TabbleWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
               <Skeleton className="h-12 w-full" />
             </div>
           ))}
+          {skeletonFiles.length === 0 && (
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center space-x-4 w-full">
+                <Skeleton className="h-12 w-12" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <div className="flex items-center space-x-4 w-full">
+                <Skeleton className="h-12 w-12" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <div className="flex items-center space-x-4 w-full">
+                <Skeleton className="h-12 w-12" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <div className="flex items-center space-x-4 w-full">
+                <Skeleton className="h-12 w-12" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

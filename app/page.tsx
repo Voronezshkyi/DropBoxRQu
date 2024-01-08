@@ -39,7 +39,7 @@ export default function Home() {
         </div>
       </div>
       <p className="text-center font-bold text-xl pt-5">Disclaimer</p>
-      <p>
+      <p className="p-3">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam minima
         veritatis illum nisi voluptatum eveniet repellat vero officia autem
         aliquam?

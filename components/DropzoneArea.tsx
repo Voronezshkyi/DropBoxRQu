@@ -12,8 +12,10 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "@/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useToast } from "./ui/use-toast";
 
 const DropzoneArea = () => {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { isLoaded, isSignedIn, user } = useUser();
   const onDrop = (acceptedFiles: File[]) => {
@@ -52,6 +54,10 @@ const DropzoneArea = () => {
       });
     });
     setLoading(false);
+    toast({
+      title: "Success!",
+      description: "File was successfuly loaded!",
+    });
   };
   const maxSize = 20971520;
   return (
